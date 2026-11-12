@@ -1,0 +1,312 @@
+Step 1: Verify Docker installation
+Open the Ubuntu terminal using Ctrl + Alt + T.
+Check Docker:
+docker --version
+Check whether Docker is running:
+  
+sudo systemctl status docker --no-pager
+Check running containers:
+sudo docker ps
+
+
+If Docker is installed but not running:
+sudo systemctl start docker
+
+
+Meaning: Verifies that Docker is installed and running.
+Step 2: Install kubectl
+Check whether kubectl is installed:
+kubectl version --client
+
+
+If it is not installed, execute:
+sudo snap install kubectl --classic
+
+
+Verify:
+kubectl version --client
+
+
+Meaning: kubectl is used to communicate with and manage Kubernetes resources.
+Step 3: Install Minikube
+Check whether Minikube is installed:
+minikube version
+
+
+If it is not installed, open the browser and visit:
+Minikube official installation pageDownload the Linux AMD64 binary, assuming the lab computer uses an AMD64 processor.
+
+Open the terminal:
+cd ~/Downloads
+
+
+Install Minikube:
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
+
+
+Verify:
+minikube version
+
+
+Meaning: Minikube creates a local Kubernetes cluster.
+Step 4: Start the Kubernetes cluster
+Start Minikube using Docker as the driver:
+minikube start --driver=docker
+
+
+Check the status:
+minikube status
+
+
+Check the nodes:
+kubectl get nodes
+
+
+Expected: The node should display Ready.
+
+Important: Minikube normally uses Docker without sudo. If you get a Docker permission error, ask your lab administrator to configure your Docker access. Do not run Minikube with sudo as a workaround.
+Step 5: Create the web application folder
+Create a folder:
+mkdir -p ~/docker-webapp
+
+
+Navigate into it:
+cd ~/docker-webapp
+
+
+Create the HTML file:
+nano index.html
+
+
+Enter:
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Docker Web Application</title>
+</head>
+<body>
+    <h1>Hello from Docker!</h1>
+    <p>This web application is running inside a Docker container.</p>
+    <p>Kubernetes deployment successfully completed.</p>
+</body>
+</html>
+
+
+Save using Ctrl + O, press Enter, and exit using Ctrl + X.
+
+Meaning: Creates the web page that will run inside the container.
+Step 6: Create the Dockerfile
+Execute:
+nano Dockerfile
+
+
+Enter:
+FROM nginx:latest
+COPY index.html /usr/share/nginx/html/index.html
+EXPOSE 80
+
+
+Save and exit.
+
+Meaning:
+- FROM selects the Nginx base image.
+- COPY copies the HTML file into the Nginx web directory.
+- EXPOSE specifies the application port.
+Step 7: Build the Docker image
+Make sure you are inside ~/docker-webapp.
+
+Execute:
+docker build -t docker-webapp:latest .
+
+
+Verify:
+docker images
+
+
+Meaning: Builds a Docker image named docker-webapp with the tag latest.
+Step 8: Load the image into Minikube
+Execute:
+minikube image load docker-webapp:latest
+
+
+Meaning: Loads the locally created Docker image into Minikube so Kubernetes can use it without downloading it from Docker Hub.
+Step 9: Create the Kubernetes folder
+Navigate to the Home directory:
+cd ~
+
+
+Create the folder:
+mkdir -p kubernetes-lab
+
+
+Navigate into it:
+cd ~/kubernetes-lab
+
+
+The folder structure should look like this:
+Home/
+│
+├── docker-webapp/
+│   ├── Dockerfile
+│   └── index.html
+│
+└── kubernetes-lab/
+    ├── deployment.yaml
+    └── service.yaml
+
+
+Step 10: Create the Deployment configuration
+Create the file:
+nano deployment.yaml
+
+
+Enter the following YAML configuration:
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: docker-webapp-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: docker-webapp
+  template:
+    metadata:
+      labels:
+        app: docker-webapp
+    spec:
+      containers:
+        - name: docker-webapp
+          image: docker-webapp:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80
+
+
+
+Save using Ctrl + O, press Enter, and exit using Ctrl + X.
+
+Meaning:
+- kind: Deployment creates a Deployment.
+- replicas: 2 requests two Pods.
+- selector identifies the Pods managed by the Deployment.
+- template defines the Pods to be created.
+- image specifies the Docker image.
+- containerPort: 80 specifies the application port.
+Step 11: Deploy the application
+Execute:
+kubectl apply -f deployment.yaml
+
+
+Meaning: Creates the Deployment using the YAML configuration file.
+Step 12: Verify the Deployment
+kubectl get deployments
+
+
+Expected: The Deployment should eventually show 2/2 ready replicas.
+Step 13: Verify the Pods
+kubectl get pods
+
+
+Expected: Two Pods should appear with Running status and 1/1 readiness.
+Step 14: Create the Service configuration
+Create the file:
+nano service.yaml
+
+
+Enter:
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: docker-webapp-service
+spec:
+  type: NodePort
+  selector:
+    app: docker-webapp
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+
+
+
+Save and exit.
+
+Meaning:
+- kind: Service creates a Service.
+- type: NodePort exposes the application through a node port.
+- selector connects the Service to the application Pods.
+- port specifies the Service port.
+- targetPort specifies the container port.
+Step 15: Apply the Service configuration
+Execute:
+kubectl apply -f service.yaml
+
+
+Verify:
+kubectl get services
+
+
+Meaning: Creates and verifies the Service.
+Step 16: Access the web application
+Execute:
+minikube service docker-webapp-service
+
+
+The browser will open the application URL, or Minikube will display the URL in the terminal.
+Hello from Docker!
+This web application is running inside a Docker container.
+
+Kubernetes deployment successfully completed.
+Application deployed
+
+Step 17: Verify the application inside a Pod
+List the Pods:
+kubectl get pods
+
+
+Copy one Pod name and execute:
+kubectl exec -it <pod-name> -- cat /usr/share/nginx/html/index.html
+
+
+Replace <pod-name> with the actual Pod name.
+
+Meaning: Displays the HTML file stored inside the running container.
+Step 18: Test scaling
+Increase the number of replicas to three:
+kubectl scale deployment docker-webapp-deployment --replicas=3
+
+
+Verify:
+kubectl get pods
+
+
+Three Pods should appear once scaling completes.
+
+Restore the original number of replicas:
+kubectl scale deployment docker-webapp-deployment --replicas=2
+
+
+Verify again:
+kubectl get pods
+
+
+Meaning: Demonstrates Kubernetes scaling by changing the number of application replicas.
+Step 19: Clean up after the experiment (optional)
+Delete the Service:
+kubectl delete service docker-webapp-service
+
+
+Delete the Deployment:
+kubectl delete deployment docker-webapp-deployment
+
+
+Stop Minikube:
+minikube stop
+
+
+Meaning: Removes the experiment's Kubernetes resources and stops the local cluster. Do this only after completing the experiment and capturing the required outputs.
+4. Result
+The containerized web application was successfully deployed on a Kubernetes cluster using Minikube. A Deployment was created to manage two Pod replicas, a NodePort Service was configured to expose the application, and scaling was tested by increasing and decreasing the number of Pods.
