@@ -1,0 +1,730 @@
+############## Install Git, Create a GitHub Account and Execute Various Git Operations ##################
+
+STEP 1: INSTALL GIT
+
+Download Git from:
+https://git-scm.com/downloads
+
+Install Git using the default options.
+
+After installation, open Command Prompt / PowerShell / Git Bash and verify:
+
+git --version
+
+
+STEP 2: CONFIGURE GIT
+
+Set the username:
+
+git config --global user.name "Your Name"
+
+Set the email:
+
+git config --global user.email "your-email@example.com"
+
+Check the configuration:
+
+git config --list
+
+
+STEP 3: CREATE A GITHUB ACCOUNT
+
+1. Open https://github.com
+2. Click Sign Up.
+3. Enter your email address.
+4. Create a password.
+5. Choose a GitHub username.
+6. Verify your email address.
+7. Complete the account setup.
+
+
+STEP 4: CREATE A NEW REPOSITORY ON GITHUB
+
+1. Login to GitHub.
+2. Click the "+" button.
+3. Select "New repository".
+4. Enter repository name:
+
+git-demo
+
+5. Select Public.
+6. Click "Create repository".
+
+
+STEP 5: CREATE A LOCAL GIT REPOSITORY
+
+Create a project directory:
+
+mkdir git-demo
+cd git-demo
+
+Initialize Git:
+
+git init
+
+Check the repository status:
+
+git status
+
+
+STEP 6: CREATE A FILE
+
+Create a file named index.html.
+
+Example content:
+
+<html>
+<head>
+<title>Git Demo</title>
+</head>
+<body>
+<h1>Hello GitHub</h1>
+</body>
+</html>
+
+
+STEP 7: CHECK THE STATUS
+
+git status
+
+
+STEP 8: ADD FILE TO STAGING AREA
+
+Add a specific file:
+
+git add index.html
+
+Or add all files:
+
+git add .
+
+
+STEP 9: COMMIT THE CHANGES
+
+git commit -m "Initial commit"
+
+
+STEP 10: VIEW COMMIT HISTORY
+
+git log
+
+For a short history:
+
+git log --oneline
+
+
+STEP 11: CONNECT LOCAL REPOSITORY TO GITHUB
+
+Copy the repository URL from GitHub.
+
+Example:
+
+git remote add origin https://github.com/USERNAME/git-demo.git
+
+Check the remote:
+
+git remote -v
+
+
+STEP 12: RENAME THE DEFAULT BRANCH TO MAIN
+
+git branch -M main
+
+
+STEP 13: PUSH FILES TO GITHUB
+
+git push -u origin main
+
+If GitHub asks for authentication, complete the authentication process.
+
+
+STEP 14: VERIFY THE REPOSITORY
+
+Open the GitHub repository in the browser.
+
+The index.html file and commit should be visible in the repository.
+
+
+STEP 15: MODIFY THE FILE
+
+Edit index.html and change:
+
+<h1>Hello GitHub</h1>
+
+to:
+
+<h1>Hello GitHub - Version 2</h1>
+
+
+STEP 16: CHECK MODIFIED FILE
+
+git status
+
+
+STEP 17: VIEW CHANGES
+
+git diff
+
+
+STEP 18: ADD THE MODIFIED FILE
+
+git add index.html
+
+
+STEP 19: COMMIT THE MODIFICATION
+
+git commit -m "Updated index.html"
+
+
+STEP 20: PUSH THE NEW COMMIT
+
+git push origin main
+
+
+STEP 21: CREATE A NEW BRANCH
+
+git branch feature
+
+Check branches:
+
+git branch
+
+
+STEP 22: SWITCH TO THE NEW BRANCH
+
+git switch feature
+
+Or:
+
+git checkout feature
+
+
+STEP 23: CREATE A FILE IN THE NEW BRANCH
+
+Create a file named feature.txt.
+
+Add some content to it.
+
+
+STEP 24: ADD AND COMMIT THE NEW FILE
+
+git add feature.txt
+
+git commit -m "Added feature file"
+
+
+STEP 25: PUSH THE NEW BRANCH TO GITHUB
+
+git push -u origin feature
+
+
+STEP 26: SWITCH BACK TO MAIN BRANCH
+
+git switch main
+
+
+STEP 27: MERGE THE FEATURE BRANCH
+
+git merge feature
+
+
+STEP 28: PUSH THE MERGED CHANGES
+
+git push origin main
+
+
+STEP 29: CLONE A GITHUB REPOSITORY
+
+Move to another directory:
+
+cd ..
+
+Clone the repository:
+
+git clone https://github.com/USERNAME/git-demo.git
+
+Enter the cloned repository:
+
+cd git-demo
+
+
+STEP 30: CHECK REMOTE REPOSITORY
+
+git remote -v
+
+
+STEP 31: FETCH CHANGES
+
+git fetch
+
+
+STEP 32: PULL CHANGES
+
+git pull origin main
+
+
+STEP 33: VIEW BRANCHES
+
+git branch
+
+View local and remote branches:
+
+git branch -a
+
+
+STEP 34: DELETE A LOCAL BRANCH
+
+git branch -d feature
+
+
+STEP 35: DELETE A REMOTE BRANCH
+
+git push origin --delete feature
+
+
+STEP 36: UNSTAGE A FILE
+
+If a file is added using git add:
+
+git restore --staged filename
+
+
+STEP 37: DISCARD LOCAL CHANGES
+
+git restore filename
+
+
+STEP 38: VIEW COMMIT DETAILS
+
+git show
+
+
+STEP 39: VIEW DIFFERENCES BETWEEN COMMITS
+
+git diff HEAD~1 HEAD
+
+
+STEP 40: CHECK CURRENT GIT STATUS
+
+git status
+
+
+STEP 41: CHECK CURRENT BRANCH
+
+git branch --show-current
+
+
+STEP 42: VIEW ALL GIT CONFIGURATION
+
+git config --list
+
+
+STEP 43: REMOVE GIT REPOSITORY
+
+To remove Git tracking from the project, delete the .git directory.
+
+Windows Command Prompt:
+
+rmdir /s /q .git
+
+Git Bash:
+
+rm -rf .git
+
+
+
+##################### JENKINS INSTALLATION AND BUILD JOB######################
+
+1. Open PowerShell and check Java:
+
+java -version
+
+2. Download Jenkins LTS from:
+
+https://www.jenkins.io/download/
+
+3. Install Jenkins using the Windows .msi installer.
+
+4. Open Jenkins:
+
+http://localhost:8080
+
+5. Get the initial admin password:
+
+Get-Content "C:\Program Files\Jenkins\secrets\initialAdminPassword"
+
+6. Copy the password and paste it into the Jenkins Unlock page.
+
+7. Select:
+
+Install suggested plugins
+
+8. Create the Jenkins administrator account.
+
+9. Open Jenkins dashboard.
+
+10. Click:
+
+New Item
+
+11. Enter:
+
+MyFirstJob
+
+12. Select:
+
+Freestyle project
+
+13. Click:
+
+OK
+
+14. Scroll to:
+
+Build Steps
+
+15. Click:
+
+Add build step
+→ Execute Windows batch command
+
+16. Enter:
+
+echo Welcome to Jenkins
+echo Building the project...
+echo Build completed successfully
+
+17. Click:
+
+Save
+
+18. Click:
+
+Build Now
+
+19. Click the build number from Build History.
+
+20. Click:
+
+Console Output
+
+21. Check that the output contains:
+
+Welcome to Jenkins
+Building the project...
+Build completed successfully
+Finished: SUCCESS
+
+
+========================================================
+#################### JENKINS MASTER-SLAVE / CONTROLLER-AGENT #####################
+========================================================
+
+1. Open Jenkins:
+
+http://localhost:8080
+
+2. Login to Jenkins.
+
+3. Click:
+
+Manage Jenkins
+→ Nodes
+
+4. Click:
+
+New Node
+
+5. Enter:
+
+agent1
+
+6. Select:
+
+Permanent Agent
+
+7. Click:
+
+Create
+
+8. Enter:
+
+Number of executors:
+1
+
+Remote root directory:
+C:\Jenkins\agent1
+
+Labels:
+agent1
+
+9. Select:
+
+Launch agent by connecting it to the controller
+
+10. Click:
+
+Save
+
+11. Open PowerShell and create the agent directory:
+
+mkdir C:\Jenkins\agent1
+
+12. Go to:
+
+Manage Jenkins
+→ Nodes
+→ agent1
+
+13. Open the agent page and download agent.jar if required.
+
+14. Copy the Java command shown by Jenkins.
+
+It will look similar to:
+
+java -jar agent.jar -url http://localhost:8080/ -secret YOUR_SECRET -name agent1 -webSocket -workDir "C:\Jenkins\agent1"
+
+15. Run the exact command provided by Jenkins in PowerShell.
+
+16. Go back to:
+
+Manage Jenkins
+→ Nodes
+→ agent1
+
+17. Check that agent1 shows:
+
+Online
+
+
+18. Click:
+
+New Item
+
+19. Enter:
+
+AgentBuild
+
+20. Select:
+
+Freestyle project
+
+21. Click:
+
+OK
+
+22. Under General, select:
+
+Restrict where this project can be run
+
+23. Enter:
+
+agent1
+
+24. Scroll to:
+
+Build Steps
+
+25. Click:
+
+Add build step
+→ Execute Windows batch command
+
+26. Enter:
+
+echo Welcome to Jenkins Agent
+echo Build executed on Slave Node
+echo Distributed build successful
+
+27. Click:
+
+Save
+
+28. Click:
+
+Build Now
+
+29. Open the build number.
+
+30. Click:
+
+Console Output
+
+31. Verify:
+
+Welcome to Jenkins Agent
+Build executed on Slave Node
+Distributed build successful
+Finished: SUCCESS
+
+
+
+
+####################Docker Architecture and Lifecycle########################
+
+docker --version
+
+docker info
+
+docker pull ubuntu
+
+docker images
+
+docker run -it ubuntu bash
+
+pwd
+ls
+whoami
+
+exit
+
+docker ps -a
+
+docker start <container_id>
+
+docker ps
+
+docker stop <container_id>
+
+docker rm <container_id>
+
+docker rmi <image_name>
+
+
+######################Dockerfile and Image Building######################
+
+Create Dockerfile:
+
+FROM nginx
+COPY index.html /usr/share/nginx/html
+EXPOSE 80
+
+docker build -t myapp .
+
+docker images
+
+docker run -d -p 8080:80 myapp
+
+Check in browser:
+
+http://localhost:8080
+
+
+##############Kubernetes Cluster##############
+
+1. Install kubectl and Minikube.
+
+winget install -e --id Kubernetes.kubectl
+winget install Kubernetes.minikube
+
+2. Version verification:
+
+kubectl version --client
+minikube version
+
+3. Start Kubernetes:
+
+minikube start --driver=docker
+
+4. Verify Kubernetes and get information:
+
+kubectl get nodes
+minikube status
+kubectl cluster-info
+
+5. Create Dockerfile and index.html.
+
+Dockerfile:
+
+FROM nginx
+COPY index.html /usr/share/nginx/html
+EXPOSE 80
+
+6. Build Docker image:
+
+docker build -t kub-demo:v1 .
+
+docker images
+
+7. Load image into Minikube:
+
+minikube image load kub-demo:v1
+
+8. Create a Deployment with 2 replicas:
+
+kubectl create deployment kub-demo --image=kub-demo:v1 --replicas=2
+
+Verify:
+
+kubectl get deployments
+kubectl get pods
+
+9. Expose the application:
+
+kubectl expose deployment kub-demo --type=NodePort --port=80
+
+Check:
+
+kubectl get services
+
+10. Open the application:
+
+minikube service kub-demo
+
+Stop Minikube:
+
+minikube stop
+
+
+
+
+######################Puppet Configuration Management #####################
+
+sudo apt update
+sudo apt install puppet-agent
+puppet --version
+sudo apt install puppetserver
+sudo systemctl start puppetserver
+sudo systemctl status puppetserver
+sudo puppet config print server --section agent
+echo "127.0.0.1 puppet" | sudo tee -a /etc/hosts
+getent hosts puppet
+sudo ss -ltnp | grep 8140
+
+nano first.pp
+
+file { '/tmp/puppet-demo':
+  ensure => directory,
+}
+
+sudo puppet apply first.pp
+ls -ld /tmp/puppet-demo
+sudo puppet apply first.pp
+sudo puppet agent --test
+
+
+
+################Software Configuration Management using Puppet Blocks ##############
+
+mkdir -p ~/puppet-blocks-lab/modules/webdemo/manifests
+cd ~/puppet-blocks-lab
+
+nano modules/webdemo/manifests/init.pp
+
+class webdemo {
+  file { '/tmp/puppet-blocks-demo.txt':
+    ensure  => file,
+    content => upcase('puppet blocks demonstration'),
+  }
+}
+
+nano site.pp
+
+include webdemo
+
+sudo puppet apply --modulepath=modules site.pp
+
+cat /tmp/puppet-blocks-demo.txt
+
+sudo puppet apply --modulepath=modules site.pp
+
